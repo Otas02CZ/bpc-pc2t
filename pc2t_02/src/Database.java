@@ -1,10 +1,11 @@
 public class Database {
-    String name;
-    short birthYear;
-    float workingTime;
-    static float workingTimeMax = 1;
+    private String name;
+    private short birthYear;
+    private float workLoad;
+    private static float workLoadMax = 1;
 
     Database(String name, short birthYear) {
+        super();
         this.name = name;
         this.birthYear = birthYear;
     }
@@ -17,30 +18,30 @@ public class Database {
         return birthYear;
     }
 
-    public float getWorkingTime() {
-        return workingTime;
+    public float getWorkLoad() {
+        return this.workLoad;
     }
 
-    public float getWorkingTimeMax() {
-        return workingTimeMax;
+    public static float getMaxWorkLoad() {
+        return workLoadMax;
     }
 
-    static void setMaxWorkingTime(float workingTimeNew) {
-        workingTimeMax = workingTimeNew;
+    public static void setMaxWorkLoad(float workLoadNew) {
+        workLoadMax = workLoadNew;
     }
 
-    public boolean updateWorkingTime(float newWorkingTime) {
-        float tempWorkingTime = this.workingTime + newWorkingTime;
-        if (tempWorkingTime > workingTimeMax)
+    public boolean updateWorkload(float newWorkLoad) {
+        float tempWorkLoad = this.workLoad + newWorkLoad;
+        if (tempWorkLoad > workLoadMax)
             return false;
         else {
-            this.workingTime = tempWorkingTime;
+            this.workLoad = tempWorkLoad;
             return true;
         }
     }
 
     public String getInfo() {
-        return this.name + " - " + this.birthYear + " - " + this.workingTime;
+        return this.name + " - " + this.birthYear + " - " + this.workLoad;
     }
 
 
