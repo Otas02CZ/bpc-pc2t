@@ -29,7 +29,7 @@ public class Test {
                 System.out.println("Chyba pri pridavani bodu. Zaporne cislo nebo jich je moc.");
         }
         if (bpc1.canCreditBeGiven()) {
-            System.out.printf("V predmetu %s mame %i bodu za cviceni, zapocet muze byt udelen.", bpc1.getSubjectName(), (int) (bpc1.getSubjectPoints()));
+            System.out.printf("V predmetu %s mame %d bodu za cviceni, zapocet muze byt udelen.", bpc1.getSubjectName(), (int) (bpc1.getSubjectPoints()));
             System.out.printf("Zadejte body za zkousku %s: ", bpc1.getSubjectName());
             while (!sc.hasNextShort()) {
                 System.out.println("Mel jste zadat male cislo.");
@@ -42,7 +42,7 @@ public class Test {
                 System.out.println("Chyba pri pridavani bodu. Zaporne cislo nebo jich je moc.");
         }
         else
-            System.out.printf("V predmetu %s mame %i bodu za cviceni, zapocet nemuze byt udelen.", bpc1.getSubjectName(), bpc1.getSubjectPoints());
+            System.out.printf("V predmetu %s mame %d bodu za cviceni, zapocet nemuze byt udelen.", bpc1.getSubjectName(), (int)(bpc1.getSubjectPoints()));
 
         System.out.println("Předmět BPC2");
         System.out.printf("Zadejte body za projekt %s: ", bpc2.getSubjectName());
@@ -67,7 +67,7 @@ public class Test {
         else
             System.out.println("Chyba pri pridavani bodu. Zaporne cislo nebo jich je moc.");
         if (bpc2.canCreditBeGiven()) {
-            System.out.printf("V predmetu %s mame %i bodu za cviceni, zapocet muze byt udelen.", bpc2.getSubjectName(), bpc2.getSubjectPoints());
+            System.out.printf("V predmetu %s mame %d bodu za cviceni, zapocet muze byt udelen.", bpc2.getSubjectName(), (int)(bpc2.getSubjectPoints()));
             System.out.printf("Zadejte body za zkousku %s: ", bpc2.getSubjectName());
             while (!sc.hasNextShort()) {
                 System.out.println("Mel jste zadat male cislo.");
@@ -81,16 +81,12 @@ public class Test {
 
         }
         else
-            System.out.printf("V predmetu %s mame %i bodu za cviceni, zapocet nemuze byt udelen.", bpc2.getSubjectName(), bpc2.getSubjectPoints());
+            System.out.printf("V predmetu %s mame %d bodu za cviceni, zapocet nemuze byt udelen.", bpc2.getSubjectName(), bpc2.getSubjectPoints());
 
         System.out.println("Předmeť BPIS");
         System.out.printf("Chcete udelit zapocet v predmetu %s a/jine:", bpis.getSubjectName());
-        while (!sc.hasNextLine()) {
-            System.out.println("Mel jste zadat text");
-            sc.hasNextLine();
-            System.out.printf("Chcete udelit zapocet v predmetu %s a/jine:", bpis.getSubjectName());
-        }
-        if (sc.nextLine() == "a")
+        sc.nextLine();
+        if (sc.nextLine().equals("a"))
             bpis.giveCredit();
         if (bpis.isCreditGiven())
             System.out.print("V predmetu BPIS byl zapocet udelen");

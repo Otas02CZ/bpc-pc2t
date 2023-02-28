@@ -18,10 +18,10 @@ public class BPIS implements Subject{
     }
 
     public void giveCredit() {
-        creditGiven = true;
+        this.creditGiven = true;
     }
 
     public boolean isCreditGiven() {
-        return creditGiven;
+        return this.creditGiven;
     }
 }
