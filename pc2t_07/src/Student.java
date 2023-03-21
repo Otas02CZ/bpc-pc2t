@@ -1,36 +1,46 @@
+import java.io.Serializable;
 
-public class Student {
-	public Student(String jmeno, int rocnik)
+public class Student implements Serializable {
+	public Student() {
+
+	}
+	public Student(String name, int year)
 	{
-		this.jmeno=jmeno;
-		this.rocnik=rocnik;
+		this.name = name;
+		this.year = year;
 	}
 	
-	public String getJmeno()
+	public String getName()
 	{
-		return jmeno;
+		return name;
 	}
 	
-	public int getRocnik()
+	public int getYear()
 	{
-		return rocnik;
+		return year;
 	}
 	
-	public float getStudijniPrumer() throws prumerVyjimka{
-		if (studijniPrumer==0) {
-			throw new prumerVyjimka("Jeste nebyl zadan prumer.");
+	public float getAverage() throws AverageException {
+		if (average ==0) {
+			throw new AverageException("Jeste nebyl zadan prumer.");
 		}
-		return studijniPrumer;
+		return average;
 	}
 
-	public void setStudijniPrumer(float studijniPrumer) throws prumerVyjimka{
-		if (studijniPrumer < 1 || studijniPrumer > 5) {
-			throw new prumerVyjimka("Chybna hodnota zadavaneho prumeru.");
+	public void setAverage(float average) throws AverageException {
+		if (average < 1 || average > 5) {
+			throw new AverageException("Chybna hodnota zadavaneho prumeru.");
 		}
-		this.studijniPrumer = studijniPrumer;
+		this.average = average;
 	}
 
-	private String jmeno;
-	private int rocnik;
-	private float studijniPrumer;
+	public void copyToReferenced(Student studentRef) {
+		studentRef.name = name;
+		studentRef.year = year;
+		studentRef.average = average;
+	}
+
+	private String name;
+	private int year;
+	private float average;
 }

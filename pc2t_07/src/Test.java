@@ -1,112 +1,159 @@
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Test {
 
-	public static int pouzeCelaCisla(Scanner sc) 
+	public static int getOnlyWholeNumFromConsole(Scanner sc)
 	{
-		int cislo = 0;
+		int inputNumber;
 		try
 		{
-			cislo = sc.nextInt();
+			inputNumber = sc.nextInt();
 		}
 		catch(Exception e)
 		{
 			System.out.println("Nastala vyjimka typu "+e.toString());
 			System.out.println("zadejte prosim cele cislo ");
 			sc.nextLine();
-			cislo = pouzeCelaCisla(sc);
+			inputNumber = getOnlyWholeNumFromConsole(sc);
 		}
-		return cislo;
+		return inputNumber;
 	}
 
-	public static float pouzeCisla(Scanner sc) {
-		float cislo = 0;
+	public static float getOnlyNumFromConsole(Scanner sc) {
+		float inputNumber;
 		try {
-			cislo = sc.nextFloat();
+			inputNumber = sc.nextFloat();
 		}
 		catch (Exception e) {
 			System.out.println("Nastala vyjimka typu "+e.toString());
 			System.out.println("zadejte prosim cislo ");
 			sc.nextLine();
-			cislo = pouzeCisla(sc);
+			inputNumber = getOnlyNumFromConsole(sc);
 		}
-		return cislo;
+		return inputNumber;
 	}
 	
 
 
-	public static void main(String[] args) {	
-		// TODO Auto-generated method stub
-		Scanner sc=new Scanner(System.in);
-		Databaze mojeDatabaze=new Databaze(1);
-		int idx;
-		float prumer;
-		int volba;
-		boolean run=true;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		Database StudentDB = new Database();
+		float avg;
+		int choice;
+		boolean run = true;
+		String name, fileName;
 		while(run)
 		{
 			System.out.println("Vyberte pozadovanou cinnost:");
-			System.out.println("1 .. vytvoreni nove databaze");
+			System.out.println("1 .. Reset databaze");
 			System.out.println("2 .. vlozeni noveho studenta");
 			System.out.println("3 .. nastaveni prumeru studenta");
 			System.out.println("4 .. vypis informace o studentovi");
-			System.out.println("5 .. ukonceni aplikace");
-			volba=pouzeCelaCisla(sc);
-			switch(volba)
+			System.out.println("5 .. smazani studenta");
+			System.out.println("6 .. vypis vsech jmen studentu v databazi");
+			System.out.println("7 .. detailni vypis seznamu studentu");
+			System.out.println("8 .. ulozeni databaze do souboru");
+			System.out.println("9 .. nacteni databaze ze souboru");
+			System.out.println("10 .. ukonceni aplikace");
+			choice= getOnlyWholeNumFromConsole(sc);
+			switch(choice)
 			{
 				case 1:
-					System.out.println("Zadejte pocet studentu");
-					mojeDatabaze = new Databaze(Math.abs(pouzeCelaCisla(sc)));
+					StudentDB = new Database();
 					break;
 				case 2:
 					try {
-						mojeDatabaze.setStudent();
-					}
-					catch (ArrayIndexOutOfBoundsException e) {
-						System.out.println("V databazi jiz neni volne misto.");
+						StudentDB.setStudent();
 					}
 					catch (InputMismatchException e) {
 						System.out.println("Zadali jste chybny vstup");
 					}
 					break;
 				case 3:
-					System.out.println("Zadejte index a prumer studenta");
-					idx = pouzeCelaCisla(sc);
-					prumer = pouzeCisla(sc);
+					StudentDB.printAllStudentNames();
+					System.out.println("Zadejte jmeno a prumer studenta");
+					name = sc.next();
+					avg = getOnlyNumFromConsole(sc);
 					try {
-						mojeDatabaze.setPrumer(idx, prumer);
+						if (!StudentDB.setAverage(name, avg)) {
+							System.out.println("Zadany student v databazi neni.");
+						}
 					}
-					catch (ArrayIndexOutOfBoundsException e) {
-						System.out.println("Zadali jste spatny index.");
-					}
-					catch (NullPointerException e) {
-						System.out.println("Polozka neexistuje.");
-					}
-					catch (prumerVyjimka e) {
+					catch (AverageException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
 				case 4:
-					System.out.println("Zadejte index studenta");
-					idx=pouzeCelaCisla(sc);
+					StudentDB.printAllStudentNames();
+					System.out.println("Zadejte jmeno studenta");
+					name = sc.next();
 					try {
-						Student info=mojeDatabaze.getStudent(idx);
-						System.out.println("Jmeno: " + info.getJmeno() + " rok narozeni: " + info.getRocnik() + " prumer: " + info.getStudijniPrumer());
+						Student student = new Student();
+						if (!StudentDB.getStudent(name, student)) {
+							System.out.println("Student se zadanym jmenem v databazi neni.");
+							break;
+						}
+						else
+							System.out.println("Jmeno: " + student.getName() + " rok narozeni: " + student.getYear() + " avg: " + student.getAverage());
 					}
-					catch (ArrayIndexOutOfBoundsException e) {
-						System.out.println("Zadali jste chybny index studenta.");
-					}
-					catch (NullPointerException e) {
-						System.out.println("Polozka neexistuje.");
-					}
-					catch (prumerVyjimka e) {
+					catch (AverageException e) {
 						System.out.println(e.getMessage());
 					}
 					break;
-
 				case 5:
+					StudentDB.printAllStudentNames();
+					System.out.println("Zadejte jmeno studenta pro odstraneni.");
+					name = sc.next();
+					if (!StudentDB.removeStudent(name)) {
+						System.out.printf("Student %s nebyl nalezen a tudiz nemuze byt odebran.\n", name);
+					}
+					else
+						System.out.printf("Student %s byl uspesne odebran.\n", name);
+					break;
+				case 6:
+					StudentDB.printAllStudentNames();
+					break;
+				case 7:
+					StudentDB.printAllStudents();
+					break;
+				case 8:
+					System.out.println("Zadejte nazev souboru pro ulozeni, bez pripony: ");
+					try {
+						fileName = sc.next();
+						StudentDB.writeDBToFile(fileName);
+						System.out.printf("Uspesne ulozeno do souboru \"%s.hmsd\".\n", fileName);
+					}
+					catch (IOException e) {
+						System.out.println(e.getMessage());
+						System.out.println(e.getCause());
+						System.out.println("Nastala chyba pri ukladani.");
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Nastala chyba pri ziskavani jmena souboru.");
+					}
+					break;
+				case 9:
+					System.out.println("Zadejte nazev souboru pro nacteni, bez pripony: ");
+					try {
+						fileName = sc.next();
+						StudentDB.loadDBFromFile(fileName);
+						System.out.printf("Uspesne nacteno ze souboru \"%s.hmsd\".\n", fileName);
+					}
+					catch (IOException e) {
+						System.out.println(e.getMessage());
+						System.out.println("Nastala chyba pri nacitani.");
+					}
+					catch (ClassNotFoundException e) {
+						System.out.println("Nastala chyba pri nacitani.");
+					}
+					catch (InputMismatchException e) {
+						System.out.println("Nastala chyba pri ziskavani jmena souboru.");
+					}
+					break;
+				case 10:
 					run=false;
 					break;
 			}
