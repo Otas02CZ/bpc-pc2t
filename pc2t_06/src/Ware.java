@@ -14,7 +14,7 @@ public abstract class Ware {
         this.name = name;
     }
     public float getPrice() {
-        return this.price*((dph/100)+1);
+        return this.price*(((float)dph/100)+1);
     }
     public void setPrice(float price) {
         this.price = price;
