@@ -66,7 +66,18 @@ public class Test {
 					break;
 				case 2:
 					try {
-						StudentDB.setStudent();
+						name = sc.next();
+						int rok = sc.nextInt();
+						if (StudentDB.studentExists(name)) {
+							System.out.print("V databazi jiz existuje zaznam s danym jmenem, chcete jej prepsat? y/n:");
+							if (!sc.next().equalsIgnoreCase("y")) {
+								System.out.println("\nStudent nebude prepsan.");
+								break;
+							}
+							else
+								System.out.println("\nStudent bude prepsan.");
+						}
+						StudentDB.setStudent(name, rok);
 					}
 					catch (InputMismatchException e) {
 						System.out.println("Zadali jste chybny vstup");

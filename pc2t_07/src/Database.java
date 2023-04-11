@@ -9,12 +9,13 @@ public class Database {
 		DB = new HashMap<>();
 		sc=new Scanner(System.in);
 	}
-	
-	public void setStudent()
+
+	public boolean studentExists(String name) {
+		return DB.containsKey(name);
+	}
+
+	public void setStudent(String name, int rok)
 	{
-		System.out.println("Zadejte jmeno studenta, rok narozeni");
-		String name=sc.next();
-		int rok=sc.nextInt();
 		DB.put(name, new Student(name, rok));
 	}
 	

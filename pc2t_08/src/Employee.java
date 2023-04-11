@@ -1,13 +1,23 @@
 public class Employee {
-    private char[] nickname;
-    private char[] email;
-    private char[] password;
+    private String nickname;
+    private String email;
+    private String password;
     private EmployeeType employeeType;
 
-    Employee(char[] name, char[] email, char[] password) {
+    Employee(String name, String email, String password, EmployeeType type) {
         this.nickname = name;
         this.email = email;
         this.password = password;
+        this.employeeType = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee [" +
+                "\nnickname: " + this.nickname +
+                "\nemail: " + this.email +
+                "\npassword: " + this.password +
+                "\ntype: " + this.employeeType.toString() + "]";
     }
 
     public EmployeeType getEmployeeType() {
@@ -17,24 +27,24 @@ public class Employee {
         this.employeeType = employeeType;
     }
 
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public char[] getEmail() {
+    public String getEmail() {
         return email;
     }
-    public void setEmail(char[] email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public char[] getNickname() {
+    public String getNickname() {
         return nickname;
     }
-    public void setNickname(char[] nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 }
